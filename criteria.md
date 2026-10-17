@@ -61,12 +61,12 @@ On the held-out set, on all three seeds: the model's F1 on my largest label
 `motivation`, `other`), so a random guesser gets about 25% and the zero-shot
 baseline on the practice set reached only 0.479 macro F1, so 0.55 to 0.70 is
 a real step above both. I made the smallest label's target looser because
-`analysis` has 23 of my 146 labelled posts (15.8%), so only about 4 of them land
+`analysis` has 25 of my 159 labelled posts (15.7%), so only about 4 to 5 of them land
 in the test split (assuming a split of about 15 to 20%), and a single wrong post
 moves its F1 by 0.10 or more. A simulation with 7 test posts showed that even a
 good model passes 0.55 on all three seeds only about 64 to 88 percent of the
 time, and 4 posts is noisier still, so 0.75 there would be close to unreachable.
-`other` is my largest label (56 posts, 38.4%), so I can ask more of it.
+`other` is my largest label (61 posts, 38.4%), so I can ask more of it.
 
 ---
 
@@ -75,8 +75,8 @@ time, and 4 posts is noisier still, so 0.75 there would be close to unreachable.
 No single label makes up more than 60% of `labels.csv` (the project's hard cap
 is 70%).
 
-**Why this target:** My tally is `other` 56 (38.4%), `prescription` 38
-(26.0%), `motivation` 29 (19.9%) and `analysis` 23 (15.8%), so `other` is my
+**Why this target:** My tally is `other` 61 (38.4%), `prescription` 44
+(27.7%), `motivation` 29 (18.2%) and `analysis` 25 (15.7%), so `other` is my
 biggest class and `analysis` my smallest. `analysis` only counts when a post gives a
 prescription AND a full-clause reason, and `motivation` only counts when a
 post gives no sets, reps or days, so both could be thin. If one class passes
@@ -122,7 +122,7 @@ not post length.
 The model's macro F1 on the held-out set is at least 0.65 on all three seeds.
 
 **Why this target:** The zero-shot baseline reached only 0.479 on the practice
-set, so 0.65 is a clear improvement and is realistic for about 150 labelled
+set, so 0.65 is a clear improvement and is realistic for about 160 labelled
 posts across four classes. I used macro F1 and not accuracy because a model
 that favours my biggest class can post a high accuracy while getting
 `analysis` wrong.
