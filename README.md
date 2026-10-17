@@ -180,8 +180,8 @@ when a post exposed a gap (the three rules above, plus the length fix in
 "How I Used AI"). I did not keep a count of rows I changed individually, so I
 am not claiming one. I also chose not to do my own blind re-label of a sample;
 the second-annotator check below is an AI one, not a human one, and that is a
-limit on how far these labels can be trusted. `other` was sampled, not collected exhaustively, so its share
-is not its share of the real community.
+limit on how far these labels can be trusted. `other` was sampled, not
+collected exhaustively, so its share is not its share of the real community.
 
 After the file was built I ran a consistency check. A fresh second annotator
 (an AI model that had not seen my labels) labelled 20 hard `prescription` and
@@ -190,7 +190,8 @@ After the file was built I ran a consistency check. A fresh second annotator
 `analysis`. The other 3 disagreements were hedged or implied instructions
 ("you could do...", "may be slightly better...") that it called `other`. My
 criterion 3 asked for 80% overall, so on this deliberately hard sample that is
-a miss, and I am leaving the target where it is.
+a miss, and I am leaving the target where it is. Merging labels would have
+fixed only 2 of the 5 disagreements, so I kept four labels.
 
 **Counts per label:**
 
@@ -271,6 +272,17 @@ one post changes a label's F1 a lot. I expect those scores to move a great
 deal between seeds in Unit 6. `results.json` and `test_split.csv` from this
 run are committed.
 
+**What the first run produced (seed 42, from `results.json`):** accuracy 0.417
+and macro F1 0.203 on the 24 test posts. Per-label F1: `other` 0.562 (n=9),
+`prescription` 0.250 (n=7), `analysis` 0.000 (n=4), `motivation` 0.000 (n=4).
+Validation loss only went from 1.33 to 1.27 over 3 epochs (21 training steps),
+and validation macro F1 fell from 0.203 to 0.136, so this is a model that has barely
+started learning, not a finished result. The model was right 0.625 of the time
+on its most confident third of test posts and 0.250 on its least confident
+third. I have not looked at the confusion matrix yet and I have not run the
+baseline or the other two seeds; those are Unit 6. I did not change any
+setting to chase these numbers, and my criteria were written before this run.
+
 
 
 ---
@@ -310,7 +322,10 @@ note in the `note` column. I did not
 label the later rows myself or correct them one by one; my part was supplying
 the threads, setting the rules, and ruling on the borderline cases Claude
 flagged. A second AI annotator, which never saw my labels, did the 20-post
-consistency check described above.
+consistency check described above. Claude also helped me draft the wording of
+`criteria.md` and this README (I supplied the counts, rules and results it was
+based on), and it made the name, email and `LABELS` edits in `takemeter.ipynb`;
+I ran the notebook and the git commands myself.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
@@ -505,16 +520,17 @@ learned:**
 
      SUBMISSION CHECKLIST — unit 5
 
-       [ ] criteria.md has five numbered criteria, each naming a NUMBER
-       [ ] Each has a reason underneath tied to your data or taxonomy
-       [ ] labels.csv: at least 150 rows, text/label/note, ONE file not split
-       [ ] No label above 70%
-       [ ] All five unit 5 sections have real content
-       [ ] Label Taxonomy includes the decision rule for your hardest boundary
-       [ ] The Dataset includes three hard cases
-       [ ] results.json and test_split.csv committed (the notebook does this)
-       [ ] At least four new commits
+       [x] criteria.md has five numbered criteria, each naming a NUMBER
+       [x] Each has a reason underneath tied to your data or taxonomy
+       [x] labels.csv: at least 150 rows, text/label/note, ONE file not split
+       [x] No label above 70%
+       [x] All five unit 5 sections have real content
+       [x] Label Taxonomy includes the decision rule for your hardest boundary
+       [x] The Dataset includes three hard cases
+       [x] results.json and test_split.csv committed (the notebook does this)
+       [x] At least four new commits
        [ ] Repository URL submitted — WRITE IT DOWN
+           https://github.com/Gdnewz/ai201-project3-takemeter-starter-v2026
 
      SUBMISSION CHECKLIST — unit 6
 
