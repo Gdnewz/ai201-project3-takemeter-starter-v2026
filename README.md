@@ -173,8 +173,14 @@ practice batch and compared them with Claude's, and I made the calls on the
 rules that came out of it: a report of what the author did is `other`, a tip
 for getting to the gym that never argues consistency matters is `other`, and
 the precedence is `analysis` > `prescription` > `motivation`.
-**[CONFIRM: say how many of the later rows you read through, and whether you
-changed any.]** `other` was sampled, not collected exhaustively, so its share
+For the rows after that first batch, I did not label them cold myself and I
+did not go back and re-check every one by hand. What I did was supply the
+threads, read the notes Claude put on borderline rows, and decide the rules
+when a post exposed a gap (the three rules above, plus the length fix in
+"How I Used AI"). I did not keep a count of rows I changed individually, so I
+am not claiming one. I also chose not to do my own blind re-label of a sample;
+the second-annotator check below is an AI one, not a human one, and that is a
+limit on how far these labels can be trusted. `other` was sampled, not collected exhaustively, so its share
 is not its share of the real community.
 
 After the file was built I ran a consistency check. A fresh second annotator
@@ -245,15 +251,25 @@ a miss, and I am leaving the target where it is.
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`, fine-tuned locally with the
+notebook's training cell. No hosted model.
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** 3 epochs, learning rate 2e-5, batch size 16, max length 128,
+seed 42. Trained on CPU (no GPU), torch 2.14.1+cpu, in about 1 minute 16
+seconds.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. I left every
+setting at the notebook's default for this first run. I only filled in my
+name, email and `LABELS` (`analysis`, `prescription`, `motivation`, `other`),
+and pointed it at my own `labels.csv`.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+**Split sizes:** 111 train / 24 validation / 24 test (stratified 70/15/15 on
+my 159 rows, seed 42). Per-label counts in the test split: `analysis` 4,
+`prescription` 7, `motivation` 4, `other` 9. Three of the four labels have
+fewer than about 8 posts in test (`analysis` and `motivation` only 4 each), so
+one post changes a label's F1 a lot. I expect those scores to move a great
+deal between seeds in Unit 6. `results.json` and `test_split.csv` from this
+run are committed.
 
 
 
@@ -290,8 +306,10 @@ of next unit's variance. -->
 
 **Pre-labelling disclosure:** Claude pre-labelled every row in `labels.csv` from
 threads I pasted, using my definitions. Rows I thought were borderline have a
-note in the `note` column. **[CONFIRM: say how many rows you read and corrected
-yourself.]** A second AI annotator, which never saw my labels, did the 20-post
+note in the `note` column. I did not
+label the later rows myself or correct them one by one; my part was supplying
+the threads, setting the rules, and ruling on the borderline cases Claude
+flagged. A second AI annotator, which never saw my labels, did the 20-post
 consistency check described above.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
@@ -316,6 +334,12 @@ consistency check described above.
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
+
+I did not write a prediction before the first training run. I ran the
+notebook through section 5 and saw the first results (seed 42) before writing
+anything here, so I have no genuine before-the-fact prediction for that run
+and I am not going to pretend I do. I am leaving that as a miss on the
+process rather than writing one now and backdating it.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
