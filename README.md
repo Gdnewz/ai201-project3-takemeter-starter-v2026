@@ -42,7 +42,15 @@
 <!-- Your community, and what your classifier sorts posts into. Three or four
      sentences. -->
 
-
+TakeMeter reads posts and comments from r/Fitness, the fitness community on
+Reddit, and sorts each one into one of four labels:
+`prescription` (tells the reader what sets, reps, days or phase lengths to
+use), `analysis` (gives that prescription plus a reason for it),
+`motivation` (argues that consistency or adherence is what matters, with no
+training instruction), and `other` (everything else). It runs locally with no
+hosted model. I chose these labels because the same community mixes advice
+that says what to do, advice that says why, and advice about sticking with it,
+and I wanted to see whether a small model can tell them apart.
 
 ---
 
@@ -54,35 +62,94 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+Each post gets exactly one label. If a post meets more than one, the highest
+tier wins: `analysis` > `prescription` > `motivation`. A tier only counts if
+the post meets that tier's own test. A post or comment is only included if it
+can be labelled without reading the comment above it, so replies that depend
+on a parent comment are dropped.
 
-**Definition:**
+### `prescription`
+
+**Definition:** The post tells the reader to do something by giving at least
+one of sets, reps, days per week, or weeks per training phase as an
+instruction, without a full-clause reason for it (a goal word like "for
+hypertrophy" or an adjective like "brutal" is allowed). A report of what the
+author did does not count.
 
 **Example 1:**
->
+> "A main lift a day. Do ~10 sets total in your main lift, ramping up to a
+> top weight and then doing ~5 backoff sets. On squat/deadlift days, every
+> set turns into a giant set where you'll superset with a push, a pull and a
+> core exercise for 10+ reps." (r/Fitness comment, shortened. Sets and reps
+> as an instruction, no reason.)
 
 **Example 2:**
->
+> "Fierce 5, SL 5x5, icf 5x5. Choose one. 45mins to complete" (r/Fitness
+> comment. A program with sets and reps, no reason.)
 
-### `label_two`
+### `analysis`
 
-**Definition:**
+**Definition:** The post gives a prescription (at least one of sets, reps,
+days per week, or weeks per phase) AND gives a full-clause reason for why the
+routine or prescription is worth doing ("because", "so that", "this
+targets"); the reason does not have to be about the sets and reps
+specifically.
 
 **Example 1:**
->
+> "Instead of going on some 9 month long suicide cut because you STILL don't
+> have abs, dedicate 16 weeks to a gaining phase… Once it's done, give
+> yourself 4 weeks to stabilize and then plan a 12 week fat loss phase… during
+> the mass building phase, the training is HARD because we have the nutrition
+> to support it." (r/Fitness comment, shortened)
 
 **Example 2:**
->
+> "5/3/1 Building the Monolith. 3 days is far more than enough.. you would
+> probably die if you did it 5/6 days a week due to the 20+ rep squats you
+> have to do at the end of the week." (r/Fitness comment. Days per week as an
+> instruction, plus a reason.)
+
+### `motivation`
+
+**Definition:** The post argues that consistency or adherence is what
+matters, and gives no sets, reps, days per week, or weeks-per-phase
+instruction. A tip for getting to the gym ("go straight after work") that
+never argues consistency matters is `other`.
+
+**Example 1:**
+> "You can start small and still make meaningful differences if you just stay
+> diligent and consistent." (r/Fitness post)
+
+**Example 2:**
+> "Timelines of doing something within weeks turn to burnout and failure.
+> Timelines of months to years lead to real change." (r/Fitness comment)
+
+### `other`
+
+**Definition:** Anything that fits none of the above: questions, experience
+reports with no instruction to the reader, and posts that give a reason or
+mechanism but no prescription.
+
+**Example 1:**
+> "started eating like two bananas and some rice cakes an hour before lifting
+> instead of training fasted… honestly the energy spike was weird at first
+> but then I hit PRs on bench that I'd been stuck on for months." (r/Fitness
+> comment, shortened. An experience report, no instruction to the reader.)
+
+**Example 2:**
+> "Full body strength training twice per week, yoga one evening per week,
+> tabata/hiit once per week, running five days a week. Three of those days
+> are two-a-days." (r/Fitness comment. Reports the author's own week, no
+> instruction to the reader.)
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `prescription` and `analysis`
 
 **The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
-
-
+If the post gives a prescription AND a full-clause reason for why the routine
+is worth doing, it is `analysis`, even if the reason is not about the sets
+and reps. If it has only a goal word or an adjective ("for hypertrophy",
+"brutal"), it stays `prescription`.
 
 ---
 
@@ -91,19 +158,43 @@
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** Comments and posts from r/Fitness, including
+beginner-routine and "is 3 days a week enough" threads, where people give sets,
+reps and days, and general-advice threads for `motivation` and `other`.
+Replies that only make sense with their parent comment were dropped.
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+**How I labelled them:** Claude pre-labelled the rows; I did not label all 159
+cold myself. I pasted the page text of r/Fitness threads into the chat. Claude
+picked short comments that make sense on their own (replies that need the
+parent comment were dropped, and so were trivial one-liners like "Yes!"),
+shortened any over about 100 words, and labelled each one cold from my label
+definitions, with a note on borderline rows. I did my own labels on the first
+practice batch and compared them with Claude's, and I made the calls on the
+rules that came out of it: a report of what the author did is `other`, a tip
+for getting to the gym that never argues consistency matters is `other`, and
+the precedence is `analysis` > `prescription` > `motivation`.
+**[CONFIRM: say how many of the later rows you read through, and whether you
+changed any.]** `other` was sampled, not collected exhaustively, so its share
+is not its share of the real community.
+
+After the file was built I ran a consistency check. A fresh second annotator
+(an AI model that had not seen my labels) labelled 20 hard `prescription` and
+`analysis` posts from my definitions alone. It agreed with my labels on 15 of
+20 (75%), and on 18 of 20 (90%) if the question is only `prescription` versus
+`analysis`. The other 3 disagreements were hedged or implied instructions
+("you could do...", "may be slightly better...") that it called `other`. My
+criterion 3 asked for 80% overall, so on this deliberately hard sample that is
+a miss, and I am leaving the target where it is.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `prescription` | 44 | 27.7% |
+| `analysis` | 25 | 15.7% |
+| `motivation` | 29 | 18.2% |
+| `other` | 61 | 38.4% |
+| **Total** | 159 | 100% |
 
 **Three hard cases**
 
@@ -111,25 +202,42 @@ Say so plainly — the disclosure is required, not penalised. -->
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+> *The post:* "The 5 toughest workout routines that exist, in my opinion"
+> (r/Fitness)
 >
-> *Could have been:*
+> *Could have been:* `prescription` or `analysis`
 >
-> *I chose, because:*
+> *I chose, because:* `analysis`. It gives phase lengths in weeks as an
+> instruction and a full-clause reason for them, and under my rule the reason
+> does not have to be about the sets and reps.
 
 **2.**
-> *The post:*
+> *The post:* "I do bodyweight work, three days a week. Hits every muscle,
+> and since my goal is functionality not hypertrophy, that's perfect. Look
+> into the RR over at r/bodyweightfitness" (r/Fitness comment)
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `other`
 >
-> *I chose, because:*
+> *I chose, because:* `other`. The days and the "since my goal…" reason
+> describe what the author does, not what the reader should do, and my rule
+> says a report of what the author did does not count as a prescription. "Look
+> into the RR" has no sets, reps, days or weeks, so it does not meet the
+> prescription test either.
 
 **3.**
-> *The post:*
+> *The post:* "go straight after work, don't go home first. I take my gym
+> stuff to work, and get shit done." (r/Fitness comment, from a thread on
+> getting motivated after a long workday)
 >
-> *Could have been:*
+> *Could have been:* `motivation` or `other`
 >
-> *I chose, because:*
+> *I chose, because:* `other`. It is advice about getting to the gym, so it
+> looks like `motivation`, but my `motivation` definition says the post must
+> argue that consistency or adherence matters. This one only gives a tactic
+> and never argues that, and it has no sets, reps, days or weeks, so it is not
+> `prescription` either. I applied the same rule to "Go straight from work…
+> you'll be tempted to sit on the couch", which gives a reason but no
+> prescription.
 
 ---
 
@@ -162,17 +270,29 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Whether a comment where someone listed their own sets and
+  reps (the Myrddwn post) counted as `prescription`.
+- *What came back:* Claude pointed out that it only reports what the author did,
+  so it fails my own `prescription` test, even though it has numbers.
+- *What I changed:* I relabelled it `other` and added "a report of what the
+  author did does not count" to my `prescription` definition. It is now hard
+  case 2.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* A first `labels.csv` built from the threads I had read.
+- *What came back:* 47 rows where the `analysis` and `motivation` rows were much
+  longer than the `prescription` rows, which a length-only baseline could use
+  to cheat criterion 4.
+- *What I changed:* I asked for shorter rows. Claude shortened the 17 rows over
+  about 100 words, and I added short `prescription` and `analysis` comments
+  from new threads.
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** Claude pre-labelled every row in `labels.csv` from
+threads I pasted, using my definitions. Rows I thought were borderline have a
+note in the `note` column. **[CONFIRM: say how many rows you read and corrected
+yourself.]** A second AI annotator, which never saw my labels, did the 20-post
+consistency check described above.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
