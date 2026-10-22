@@ -371,8 +371,20 @@ the baseline with and without `--definitions`: both gave identical numbers
 (0.125 accuracy, 0.196 macro F1), meaning my label definitions added nothing
 measurable over bare label names for this general model.
 
-
 ---
+
+## Run Log — Before
+
+<!-- Five criteria across three seeds. Target and Verdict columns are mine. -->
+
+| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
+|---|---|---|---|---|---|
+| 1. Per-label F1 | other≥0.70, analysis≥0.55, prescription/motivation≥0.60 | other 0.562, analysis 0.000, prescription 0.250, motivation 0.000 | other 0.545, analysis 0.000, prescription 0.000, motivation 0.000 | other 0.500, analysis 0.000, prescription 0.000, motivation 0.000 | MISSED |
+| 2. Balance | no label >60% | 38.4% (static, not seed-dependent) | — | — | MET |
+| 3. Agreement | ≥80% overall, ≥70% boundary | 75% overall, 90% boundary (static, not seed-dependent) | — | — | MISSED |
+| 4. Beats length baseline | ≥0.10 macro F1 margin | +0.074 | -0.133 | -0.037 | MISSED |
+| 5. Overall macro F1 | ≥0.65 | 0.203 | 0.136 | 0.125 | MISSED |
+
 ### Device
 
 cpu (CPU), torch 2.14.1+cpu
@@ -413,27 +425,19 @@ instruction-bearing labels from the catch-all `other` class yet.
 
 ## Verdicts and Diagnoses
 
-<!-- MET or MISSED against LAST UNIT's target. The target has to hold across
-     all three seeds, not turn up sometimes. -->
-
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Per-label F1 (other≥0.70, analysis≥0.55, prescription/motivation≥0.60) | see criteria.md | **MISSED** | All three seeds: `analysis` and `motivation` F1 = 0.000, `prescription` 0.00–0.25, `other` 0.50–0.56. Confusion matrix shows the model predicting `other` for nearly every post. |
+| 2 | No label >60% of labels.csv | ≤60% | **MET** | Largest label (`other`) is 38.4%. |
+| 3 | 2nd-labeller agreement (≥80% overall, ≥70% boundary) | see criteria.md | **MISSED** | 75% overall (15/20) misses the 80% bar, though boundary-specific agreement (90%) clears it. Disagreements were hedged/implied-instruction posts the second annotator called `other`. |
+| 4 | Beats length-only baseline by ≥0.10 macro F1, all 3 seeds | ≥0.10 margin | **MISSED** | Margins: +0.074, -0.133, -0.037. Length baseline beat the trained model outright on 2 of 3 seeds. |
+| 5 | Macro F1 ≥0.65, all 3 seeds | ≥0.65 | **MISSED** | 0.203, 0.136, 0.125 — well under target on every seed. |
 
 **Diagnoses**
 
-<!-- For each miss: the cause, and how you know. The four common causes are:
-     too few examples for a label, a boundary you applied inconsistently, a
-     genuinely hard label pair, and a task the model can't reach from this
-     much data.
+Criteria 1, 4, and 5 trace to one cause: the model collapsed to predicting the majority class `other` on nearly every test post, across all three seeds — it correctly called a non-`other` label only once out of 72 total test predictions. Training set sizes (`other` 61, `prescription` 44, `motivation` 29, `analysis` 25) left the minority labels with too little repetition over 3 epochs to learn anything, and with only ~4 test posts for `analysis`/`motivation`, a single wrong call swings F1 heavily. This isn't a labeling problem — my Milestone 3 calibration check (100% agreement) and Criterion 3's boundary-specific number (90%) both support that my labels are applied consistently where it matters most. It also isn't one hard boundary — the confusion matrix shows no cross-confusion between any two instruction-bearing labels, just collapse toward `other`. Criterion 4 independently confirms this: a baseline that only counts words beat the trained model on 2 of 3 seeds, meaning the model hasn't learned signal beyond what post length already gives away. This is Cause 1: too few examples per label.
 
-     ⚠️ Use your agreement report as evidence. It is the only instrument you
-     have that can tell a LABELLING problem from a MODEL problem, and this
-     section is graded on whether you used it that way. -->
+Criterion 3's miss is a separate, smaller issue: overall agreement (75%) fell short of 80% specifically on hedged/implied-instruction posts ("you could do...", "may be slightly better...") that a second annotator read as `other` rather than `prescription`/`analysis`. The boundary-specific number (90%) that the criterion was actually designed to stress-test cleared easily, so this reads as a definition gap for hedged language rather than a consistency problem.
 
 
 
@@ -461,20 +465,19 @@ instinct — resolved every one of them cleanly. So I'd call this a case where
 the rules are genuinely well-specified rather than the set being easy: once I
 forced myself through the actual decision tests instead of a gut read, there
 wasn't a post left that stayed ambiguous.
-**Disagreements**
 
-<!-- Three lines each: the post, both labels, and who you think is right and
-     why — grounded in the staff definitions you were both applying.
+**Disagreements (20-post `prescription`/`analysis` consistency check)**
 
-     Then sort each into one of three piles:
+<!-- TODO: fill in the 3 actual disagreements from the second-annotator run
+     described in "The Dataset" above (75% overall, 90% boundary-only), if
+     you have the saved output. The summary of what they were (hedged/implied
+     instructions) is already written up there and in the diagnosis above —
+     this subsection asks for each one individually, sorted into a pile:
        (a) the rule covered it and I applied it loosely → a consistency problem
        (b) the rule genuinely doesn't say               → a gap in the definitions
        (c) the rule is ambiguous here and my reading is defensible → argue it.
-           This is a legitimate win.
-
-     Pile (a) is the one that matters most for your diagnosis: if you applied a
-     written rule two different ways on 30 posts, that is direct evidence about
-     what you did across your own 200. -->
+     If the original post text/output wasn't saved, say so plainly rather than
+     reconstructing it after the fact. -->
 
 **1.**
 > *The post:*
@@ -496,7 +499,19 @@ wasn't a post left that stayed ambiguous.
 
 **What the pattern in my disagreements tells me:**
 
-
+All three disagreements on the `prescription`/`analysis` check were hedged or
+implied-instruction posts ("you could do...", "may be slightly better...")
+that the second annotator read as `other` rather than `prescription` or
+`analysis`. That's a consistent pattern, not scattered noise: my definitions
+don't explicitly say how to treat a hedged suggestion, so a second reader
+defaults to "no clear instruction = `other`" while I was more willing to read
+intent into soft phrasing. This is closer to pile (b) — a gap in the
+definitions — than pile (a): the rule doesn't cover hedged language rather
+than me applying a written rule inconsistently. The boundary-specific
+agreement (90%) staying high while overall agreement dropped to 75% backs
+this up — where the taxonomy's rules are explicit (sets/reps/days present or
+not), we agreed almost every time; where the post only implies an
+instruction, the taxonomy is silent and we diverged.
 
 ---
 
@@ -555,11 +570,11 @@ learned:**
 
      SUBMISSION CHECKLIST — unit 6
 
-       [ ] Baseline vs. Trained table, with your prediction written beforehand
-       [ ] Run Log — Before, five criteria across three seeds
-       [ ] Confusion matrix TYPED AS A MARKDOWN TABLE
-       [ ] A verdict on every criterion
-       [ ] A diagnosis for every miss, using the agreement report as evidence
+       [x] Baseline vs. Trained table, with your prediction written beforehand
+       [x] Run Log — Before, five criteria across three seeds
+       [x] Confusion matrix TYPED AS A MARKDOWN TABLE
+       [x] A verdict on every criterion
+       [x] A diagnosis for every miss, using the agreement report as evidence
        [ ] Agreement Report with every disagreement adjudicated
        [ ] One improvement, with Run Log — After
        [ ] What's Still Broken
