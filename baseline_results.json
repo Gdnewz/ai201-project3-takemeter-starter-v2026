@@ -1,0 +1,160 @@
+{
+  "model": "facebook/bart-large-mnli",
+  "n": 24,
+  "seed": 42,
+  "held_out": true,
+  "used_definitions": true,
+  "scores": {
+    "n": 24,
+    "accuracy": 0.125,
+    "f1_macro": 0.19607843137254902,
+    "per_label": {
+      "analysis": {
+        "precision": 0.07692307692307693,
+        "recall": 0.25,
+        "f1": 0.11764705882352941,
+        "support": 4
+      },
+      "motivation": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "support": 4
+      },
+      "other": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 9
+      },
+      "prescription": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 7
+      }
+    }
+  },
+  "predictions": [
+    {
+      "text": "If you want it, you'll wake the hell up. If you don't, you'll sleep. Do you want it? There is no one here that isn't \"constrained by time,\" we're parents, students, workers, struggling to get by, take care of day to day bullshit like laundry and cooking and putting gas in our cars. Wake up. Go to the gym. It's that simple.",
+      "gold": "motivation",
+      "predicted": "prescription"
+    },
+    {
+      "text": "do 8-12 reps and slow enough reps to make each set take 45+ seconds. genetally slow on the down fast up, but variety helps too",
+      "gold": "prescription",
+      "predicted": "analysis"
+    },
+    {
+      "text": "go straight after work, don't go home first. I take my gym stuff to work, and get shit done.",
+      "gold": "other",
+      "predicted": "prescription"
+    },
+    {
+      "text": "Eat and train reps. One thing that will help with hypertrophy is increased muscle tear. I found in the last 2 weeks I am MUCH more sore using 70-90% weight and focusing on the eccentric portion (lowering the weight to the chest over about 3 seconds while maintaining tension, touching the chest, pause, and then explode out). I have been lifting for ~ 1.5 years and my bench has plateaued.",
+      "gold": "other",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I'm getting better results with a 3x PPL and maybe 1-2 off days of stretching and core work. Just make sure you are pushing yourself.",
+      "gold": "other",
+      "predicted": "analysis"
+    },
+    {
+      "text": "60% your 1RM. Do reps to form-failure. 3 sets. 2 different exercises. 3 times a week. After 6 to 10 weeks, genetics depending, your chest will be bigger. Now switch to lifting 80% your 1RM, to form-failure. Do 3 sets. 2 different exercises. 3 times a week. 4 to 6 weeks. Now your strength will maximize under your new mass. Repeat to desired size/strength.",
+      "gold": "prescription",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Motivation is just a spark identifying you want to accomplish something. Discipline is how you stay the course and achieve things. You can not expect to be motivated all the time. If you do, you will fail.",
+      "gold": "motivation",
+      "predicted": "motivation"
+    },
+    {
+      "text": "Maybe it's too simplistic, but I think you just need to develop a kind of instinct for it. What I do is I always make myself actually go to the gym, but if I'm not feeling it then I'll leave after a few minutes. I live close to my gym so that's not a big deal for me, could be a logistical challenge for you, but it's kept me on a great consistent routine for years with measurable gains and no burnout.",
+      "gold": "motivation",
+      "predicted": "prescription"
+    },
+    {
+      "text": "Full body strength training twice per week, yoga one evening per week, tabata/hiit once per week, running five days a week. Three of those days are two-a-days.",
+      "gold": "other",
+      "predicted": "analysis"
+    },
+    {
+      "text": "It isn't about motivation. It's all about discipline. Do it whether you want to or not. Get in a habit. Don't let yourself excuse your way out of it.",
+      "gold": "motivation",
+      "predicted": "motivation"
+    },
+    {
+      "text": "I will pick five movements and do them for 3-4 sets. It's not so much that you did \"only 3 sets of pulldowns\". At the end of the day you did 15-20 sets of back movements. 15-20 x 8-12 is a LOT of volume. 120 - 240 reps. So stop worrying about if one movement is enough and worry about if you're getting in enough overall back volume.",
+      "gold": "other",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Need to hit some volume. Do DB for sets of 5x8-12",
+      "gold": "prescription",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I do 3x12 if hypertrophy is your goal. 3x12 is the way to go. For compounds I do 3x5. I believe 5 sets is too much volume in my opinion and generally you end up in the same weight doing 3x5 and 5x5.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "1. Eat more, its going to be very difficult to get to 100kg bench on a lean bulk or on a cut. 2. Like everyone said, add volume - finishers and burnouts with different exercises than what you did. 3. Hit relevant muscle groups - your pecs may be outgrowing the other muscles involved in the lift. Shoulders, triceps, and even Lats! - training those a bit won't give you results right away but if you focus on those groups for a while, say 2 months, when you come back to bench, you will be able to make gains once again.",
+      "gold": "analysis",
+      "predicted": "prescription"
+    },
+    {
+      "text": "I started doing 2-3 sets of hanging leg raises before every workout to warm up my core and stretch my lower back out and I've noticed a significant improvement in my ab definition.",
+      "gold": "other",
+      "predicted": "analysis"
+    },
+    {
+      "text": "I do ppl and like it but my chest started falling behind so I switched shoulders to leg day and added more chest volume/excercises. Other than that I think ppl is great for bulking, I will switch to a 5 day a week program when I begin my next cut though.",
+      "gold": "other",
+      "predicted": "prescription"
+    },
+    {
+      "text": "if you can go for 30-50 reps straight, perhaps you should add weight.",
+      "gold": "prescription",
+      "predicted": "analysis"
+    },
+    {
+      "text": "So long as you are doing other compound moves that utilise the core (squats, deadlifts, pull-ups etc) then I believe that you can develop super strong and toned abs by training them 2-3times per week. (3-5 for better results). I got and maintain my six-pack via just hanging leg raises and L-sit progressions (alongside compound movements). 3 sets of ~15reps/20s holds. Best of luck",
+      "gold": "prescription",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The reason people switch is because they are stalling at 5x5. They aren't recovering well enough because the volume is too much. So if you switch because you need to, then you'll be able to continue progressing at 3x5.",
+      "gold": "analysis",
+      "predicted": "prescription"
+    },
+    {
+      "text": "If you can lift 6 days a week PPL pays",
+      "gold": "prescription",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Think of it this way. You don't have to workout; you get to workout. You have the time, you have the resources, and you are healthy enough to go.",
+      "gold": "other",
+      "predicted": "prescription"
+    },
+    {
+      "text": "Curl progression is going to be slow relative to bigger lifts. That's just how it is. Adding reps before adding weight is a much better way of progressing in curls than doing straight linear progression in weight. 5 sets is better than 3. Rep range is less important.",
+      "gold": "prescription",
+      "predicted": "analysis"
+    },
+    {
+      "text": "You can do ab work daily. Idk about the nr of sets thats up to you but you can and should train the abs daily. They dont need such a high amount of time to recover as other muscles. I train them daily, a very short but intense workout. 5-10 mins max.",
+      "gold": "analysis",
+      "predicted": "prescription"
+    },
+    {
+      "text": "5. More means better. No, there are scientific proofs that working out 5 days a week provides barely any or none gains in comparison to working out 3 times a week. If you really do 5 workouts a week, all of them equally hard (which is doubtful), you can get up to 5-10% better results and that's already with a maybe, because how many people can properly regenerate to keep it up 5 days a week? Almost nobody, since we have to work, take care of family, kids, life.",
+      "gold": "other",
+      "predicted": "prescription"
+    }
+  ]
+}

@@ -341,30 +341,35 @@ I ran the notebook and the git commands myself.
 
 ## Baseline vs. Trained
 
-<!-- Both models on the same posts. `python baseline.py --trained results.json`
-     prints this table for you. -->
-
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.125 | 0.417 | +0.292 |
+| Macro F1 | 0.196 | 0.203 | +0.007 |
+| F1 — `analysis` | 0.118 | 0.000 | -0.118 |
+| F1 — `motivation` | 0.667 | 0.000 | -0.667 |
+| F1 — `other` | 0.000 | 0.562 | +0.562 |
+| F1 — `prescription` | 0.000 | 0.250 | +0.250 |
 
 **What I predicted before I looked:**
-<!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
-     prediction made afterwards isn't one. -->
 
-I did not write a prediction before the first training run. I ran the
-notebook through section 5 and saw the first results (seed 42) before writing
-anything here, so I have no genuine before-the-fact prediction for that run
-and I am not going to pretend I do. I am leaving that as a miss on the
-process rather than writing one now and backdating it.
+I predicted my trained model would mostly win on `motivation`, since it
+seemed easiest to detect, and would struggle more to beat the baseline on
+`analysis` and `prescription`, since those two can look alike.
 
 **What the gap actually means:**
-<!-- If the baseline matched your trained model, your fine-tuning added
-     nothing — and that is a real finding, not a failure. Say it plainly. -->
 
+The prediction was wrong in an instructive way. `motivation` didn't hold —
+it went from the baseline's best score (0.667) to 0.000 trained, and
+`analysis` also dropped slightly rather than improving. The real gains came
+on `other` and `prescription`, which I didn't predict. Overall accuracy
+jumped a lot (+0.292), but macro F1 barely moved (+0.007), so the trained
+model mostly got better at the majority class (`other`) while collapsing on
+the two labels with only 4 test posts each (`analysis`, `motivation`) — a
+handful of wrong calls on that few posts swings F1 hard, which is the same
+small-test-count risk I flagged back in the training run notes. I also ran
+the baseline with and without `--definitions`: both gave identical numbers
+(0.125 accuracy, 0.196 macro F1), meaning my label definitions added nothing
+measurable over bare label names for this general model.
 
 
 ---
