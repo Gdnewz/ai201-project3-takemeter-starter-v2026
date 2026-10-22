@@ -451,6 +451,16 @@ Criterion 3's miss is a separate, smaller issue: overall agreement (75%) fell sh
 
 ## Agreement Report
 
+*Note: this section covers two separate checks. The first (30 posts, 100%) is
+the Unit 6 Milestone 3 staff calibration exercise — a generic taxonomy
+(`analysis`/`hot_take`/`reaction`) on unrelated posts, used to test general
+labeling reliability, not my project's own labels. The second ("Disagreements
+(20-post prescription/analysis consistency check)" below) is Criterion 3's
+actual evidence — my own `prescription`/`analysis`/`motivation`/`other`
+taxonomy, which scored 75% overall / 90% boundary-only. They're independent
+checks with different purposes and different taxonomies, which is why the
+numbers differ.*
+
 **Agreement rate:** 30 / 30 = 100%
 
 **Disagreements**
