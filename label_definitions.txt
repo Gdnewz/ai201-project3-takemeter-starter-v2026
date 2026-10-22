@@ -5,6 +5,23 @@
 #
 # Delete the examples below and put yours in.
 
-analysis: makes an argument backed by a specific, checkable fact
-hot_take: a confident claim with no support offered
-reaction: an immediate response to something that just happened
+prescription: The post tells the reader to do something by giving at least
+one of sets, reps, days per week, or weeks per training phase as an
+instruction, without a full-clause reason for it (a goal word like "for
+hypertrophy" or an adjective like "brutal" is allowed). A report of what the
+author did does not count.
+
+analysis: The post gives a prescription (at least one of sets, reps,
+days per week, or weeks per phase) AND gives a full-clause reason for why the
+routine or prescription is worth doing ("because", "so that", "this
+targets"); the reason does not have to be about the sets and reps
+specifically.
+
+motivation: The post argues that consistency or adherence is what
+matters, and gives no sets, reps, days per week, or weeks-per-phase
+instruction. A tip for getting to the gym ("go straight after work") that
+never argues consistency matters is `other`.
+
+other: Anything that fits none of the above: questions, experience
+reports with no instruction to the reader, and posts that give a reason or
+mechanism but no prescription.
