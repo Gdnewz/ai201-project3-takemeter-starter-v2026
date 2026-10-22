@@ -332,6 +332,12 @@ consistency check described above. Claude also helped me draft the wording of
 based on), and it made the name, email and `LABELS` edits in `takemeter.ipynb`;
 I ran the notebook and the git commands myself.
 
+**Milestone 5:** Claude helped diagnose that the Unit 6 misses traced to two
+separate causes — undertraining (validation loss barely moved over 3 epochs)
+and too little data per label — and recommended the epoch increase as the
+fastest test of the undertraining half, given my time constraints this unit.
+I made the one-line change (`EPOCHS = 10`) and ran the retraining myself.
+
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 5.
@@ -517,39 +523,81 @@ instruction, the taxonomy is silent and we diverged.
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** Increased `EPOCHS` from 3 to 10 in the notebook's training
+settings (section 2). No other setting changed, and I did not touch
+`labels.csv` or my definitions.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** My before-run training notes flagged that
+validation loss barely moved over 3 epochs (1.33 to 1.27, only 21 training
+steps) — a model that had barely started learning, not a finished result.
+That pointed at undertraining as a contributing cause alongside too little
+data per label, and epochs is the direct, one-line lever for that half of the
+problem.
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Per-label F1 | other≥0.70, analysis≥0.55, prescription/motivation≥0.60 | other 0.737, analysis 0.400, prescription 0.800, motivation 0.889 | other 0.706, analysis 0.000, prescription 0.588, motivation 0.800 | other 0.667, analysis 0.400, prescription 0.625, motivation 0.800 | MISSED |
+| 2. Balance | no label >60% | 38.4% (static, unaffected by retraining) | — | — | MET |
+| 3. Agreement | ≥80% overall, ≥70% boundary | 75% overall, 90% boundary (static, unaffected by retraining) | — | — | MISSED |
+| 4. Beats length baseline | ≥0.10 macro F1 margin | +0.577 | +0.254 | +0.361 | MET |
+| 5. Overall macro F1 | ≥0.65 | 0.706 | 0.524 | 0.523 | MISSED |
 
-**Did it help, and how do I know:**
-
-<!-- If it didn't, say so. Relabelling that didn't help is a genuinely
-     interesting result and earns full credit. -->
-
-
+**Did it help, and how do I know:** Yes, substantially. Macro F1 roughly
+quadrupled on average (0.15 → 0.58 across the three seeds), and Criterion 4
+flipped from MISSED to MET — the model now clearly beats a length-only
+heuristic on all three seeds, where before it lost on two of them. But it's
+not a full fix: `analysis` (my smallest label, 25 examples) never reaches its
+0.55 target on any seed, and overall macro F1 (Criterion 5) still misses on 2
+of 3 seeds. My notebook's own stability check (`stability_note`) also flagged
+a 12.5-point accuracy swing across seeds — above its 10-point warning
+threshold — meaning my test set (24 posts) is still too small for these
+numbers to be fully stable. More epochs fixed the "model learned nothing"
+problem but not the "too little data for the smallest label" problem
+underneath it.
 
 ---
 
 ## What's Still Broken
 
-<!-- For each criterion still missed: what you'd do, and why you stopped. -->
+**Criterion 1 — Per-label F1.** `analysis` never reaches its 0.55 target on
+any seed (0.400, 0.000, 0.400). It's my smallest label (25 examples, ~4 in
+each test split), so a single wrong call swings its F1 by 0.25 or more — the
+same instability the stability check flagged. What I'd do: collect roughly 30
+more `analysis` examples, specifically ones that don't also read as
+`prescription`, since that's the boundary my labels are thinnest on. I
+stopped because I ran out of time this unit, not because I don't know the
+fix — more data for the smallest label is a known, mechanical next step.
 
+**Criterion 3 — Second-labeller agreement.** Overall agreement (75%) still
+misses the 80% target, driven entirely by hedged/implied-instruction posts
+("you could do...", "may be slightly better...") that my definitions don't
+explicitly address. What I'd do: add an explicit rule for hedged language to
+`label_definitions.txt` (e.g. "a hedged suggestion with no explicit sets,
+reps, days or weeks is `other`, even if a prescription is implied") and
+re-run the second-annotator check against the revised definitions. I stopped
+because this needs a fresh blind check to validate, which is its own round
+trip I didn't have time for this unit.
 
+**Criterion 5 — Overall macro F1 ≥0.65.** Seed 42 now clears it (0.706), but
+seeds 7 and 2024 don't (0.524, 0.523). The epoch increase fixed the "model
+learned nothing" problem (Criterion 4 flipped to MET) but not the "too
+little data for the smallest labels" problem underneath it. What I'd do
+next: the same fix as Criterion 1 — more `analysis` examples — plus possibly
+weighting the loss function so the model can't minimize loss by defaulting
+to `other`. I stopped here because that's a bigger change than one unit's
+"pick one thing" budget allows.
 
 **The gap between what I meant my labels to capture and what the model
-learned:**
-<!-- Two sentences. Your confusion matrix is the evidence. -->
-
+learned:** My taxonomy's hardest boundary was `prescription` vs `analysis` —
+whether a routine comes with a stated reason. The model never learned that
+distinction well; even after the epoch increase, `analysis` is still the
+weakest label on every seed, and in the before-run confusion matrix it was
+never predicted even once. The model learned to separate the catch-all
+`other` class from instruction-bearing posts, but not to reliably tell the
+instruction-bearing labels apart from each other — which was the actual
+point of the taxonomy.
 
 
 <!-- ═════════════════════════════════════════════════════════════════════
@@ -575,11 +623,13 @@ learned:**
        [x] Confusion matrix TYPED AS A MARKDOWN TABLE
        [x] A verdict on every criterion
        [x] A diagnosis for every miss, using the agreement report as evidence
-       [ ] Agreement Report with every disagreement adjudicated
-       [ ] One improvement, with Run Log — After
-       [ ] What's Still Broken
+       [~] Agreement Report with every disagreement adjudicated
+           (summary + pattern written up; 2 individual post entries still
+           need the original disagreement text if it was saved anywhere)
+       [x] One improvement, with Run Log — After
+       [x] What's Still Broken
        [ ] results_three_seeds_before.json, results_three_seeds_after.json,
-           baseline_results.json and
+           baseline_results.json, length_baseline_results.json and
            agreement_results.json committed
        [ ] At least four new commits
        [ ] The SAME repository URL as last unit
