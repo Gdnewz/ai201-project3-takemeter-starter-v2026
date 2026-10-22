@@ -1,0 +1,209 @@
+[
+  {
+    "seed": 42,
+    "n_test": 24,
+    "accuracy": 0.4166666666666667,
+    "f1_macro": 0.203125,
+    "per_label": {
+      "analysis": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 4
+      },
+      "prescription": {
+        "precision": 1.0,
+        "recall": 0.14285714285714285,
+        "f1": 0.25,
+        "support": 7
+      },
+      "motivation": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 4
+      },
+      "other": {
+        "precision": 0.391304347826087,
+        "recall": 1.0,
+        "f1": 0.5625,
+        "support": 9
+      }
+    },
+    "confusion": {
+      "analysis": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 4
+      },
+      "prescription": {
+        "analysis": 0,
+        "prescription": 1,
+        "motivation": 0,
+        "other": 6
+      },
+      "motivation": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 4
+      },
+      "other": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 9
+      }
+    },
+    "confidence": {
+      "mean_when_right": 0.3383292257785797,
+      "mean_when_wrong": 0.3232463300228119,
+      "accuracy_most_confident_third": 0.625,
+      "accuracy_least_confident_third": 0.25,
+      "n_per_third": 8
+    },
+    "device": "cpu",
+    "device_name": "CPU",
+    "torch_version": "2.14.1+cpu",
+    "max_length": 128
+  },
+  {
+    "seed": 7,
+    "n_test": 24,
+    "accuracy": 0.375,
+    "f1_macro": 0.13636363636363635,
+    "per_label": {
+      "analysis": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 4
+      },
+      "prescription": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 7
+      },
+      "motivation": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 4
+      },
+      "other": {
+        "precision": 0.375,
+        "recall": 1.0,
+        "f1": 0.5454545454545454,
+        "support": 9
+      }
+    },
+    "confusion": {
+      "analysis": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 4
+      },
+      "prescription": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 7
+      },
+      "motivation": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 4
+      },
+      "other": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 9
+      }
+    },
+    "confidence": {
+      "mean_when_right": 0.32192790508270264,
+      "mean_when_wrong": 0.30934375524520874,
+      "accuracy_most_confident_third": 0.625,
+      "accuracy_least_confident_third": 0.25,
+      "n_per_third": 8
+    },
+    "device": "cpu",
+    "device_name": "CPU",
+    "torch_version": "2.14.1+cpu",
+    "max_length": 128
+  },
+  {
+    "seed": 2024,
+    "n_test": 24,
+    "accuracy": 0.3333333333333333,
+    "f1_macro": 0.125,
+    "per_label": {
+      "analysis": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 4
+      },
+      "prescription": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 7
+      },
+      "motivation": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 4
+      },
+      "other": {
+        "precision": 0.34782608695652173,
+        "recall": 0.8888888888888888,
+        "f1": 0.5,
+        "support": 9
+      }
+    },
+    "confusion": {
+      "analysis": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 4
+      },
+      "prescription": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 7
+      },
+      "motivation": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 0,
+        "other": 4
+      },
+      "other": {
+        "analysis": 0,
+        "prescription": 0,
+        "motivation": 1,
+        "other": 8
+      }
+    },
+    "confidence": {
+      "mean_when_right": 0.35084283351898193,
+      "mean_when_wrong": 0.3166043162345886,
+      "accuracy_most_confident_third": 0.75,
+      "accuracy_least_confident_third": 0.25,
+      "n_per_third": 8
+    },
+    "device": "cpu",
+    "device_name": "CPU",
+    "torch_version": "2.14.1+cpu",
+    "max_length": 128
+  }
+]

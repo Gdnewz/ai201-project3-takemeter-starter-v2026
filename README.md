@@ -373,35 +373,39 @@ measurable over bare label names for this general model.
 
 
 ---
+### Device
 
-## Run Log — Before
+cpu (CPU), torch 2.14.1+cpu
 
-<!-- Five criteria across three seeds. The notebook's section 6 prints the
-     spread table; the Target and Verdict columns are yours. -->
+### Spread across three seeds
 
-| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
-|---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| Seed | Accuracy | Macro F1 |
+|---|---|---|
+| 42 | 0.417 | 0.203 |
+| 7 | 0.375 | 0.136 |
+| 2024 | 0.333 | 0.125 |
+
+Accuracy swings about 8.4 points across the three seeds (0.417 to 0.333) —
+under the ~10-point flag the notebook warns about, but close to it given how
+small this test split is (24 posts).
 
 ### Confusion matrix
 
-<!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
-     An image of a matrix earns nothing. -->
-
-| true \ predicted |  |  |  |
-|---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| true \ predicted | analysis | prescription | motivation | other |
+|---|---|---|---|---|
+| **analysis** | 0 | 0 | 0 | 4 |
+| **prescription** | 0 | 1 | 0 | 6 |
+| **motivation** | 0 | 0 | 0 | 4 |
+| **other** | 0 | 0 | 0 | 9 |
 
 **My biggest off-diagonal number, and what it means:**
-<!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
-     direction. "7 real analysis posts were called hot_take and only 3 went the
-     other way" is a direction, not just an error rate. -->
+
+The biggest confusion is 6 real `prescription` posts called `other`, with 0
+going the other direction. The model essentially collapsed toward predicting
+`other` across the board — it only got `prescription` right once, and never
+predicted `analysis` or `motivation` for any post at all. That's not one
+blurry boundary; the model hasn't learned to distinguish any of the three
+instruction-bearing labels from the catch-all `other` class yet.
 
 
 
