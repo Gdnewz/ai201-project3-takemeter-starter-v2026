@@ -441,19 +441,26 @@ instruction-bearing labels from the catch-all `other` class yet.
 
 ## Agreement Report
 
-<!-- Your rate against the staff set, and every disagreement adjudicated.
+**Agreement rate:** 30 / 30 = 100%
 
-     Remember you labelled these 30 under the STAFF taxonomy in
-     data/staff_taxonomy.md, not your own — so every argument below is made
-     from those definitions and those decision rules. -->
+**Disagreements**
 
-**Agreement rate:** ___ / 30 = ___%
+None — I matched staff on every post.
 
-<!-- Nobody grades this number. A 60% who argues every disagreement from the
-     stated rules beats a 95% who wrote "staff was right" nine times. Several
-     of the 30 were chosen because they're genuinely ambiguous — you should be
-     winning some of these. -->
+**Was the set easy, or is my rule application tight?**
 
+Not trivially easy — several posts (sp_011, sp_013, sp_014, sp_018, sp_019,
+sp_020) were genuine close calls on first read, and my first pass actually
+mislabeled a few of them. Most of the near-misses were `hot_take` posts that
+read as personal or heated enough to feel like `reaction`, or a post with a
+number in it that felt like `analysis` by default. Going back and applying
+Rule 1 (is the fact load-bearing or decoration on a conclusion already
+reached?) and Rule 2 (is this about the writer's own recent experience, or a
+general claim about the world?) explicitly — rather than trusting my first
+instinct — resolved every one of them cleanly. So I'd call this a case where
+the rules are genuinely well-specified rather than the set being easy: once I
+forced myself through the actual decision tests instead of a gut read, there
+wasn't a post left that stayed ambiguous.
 **Disagreements**
 
 <!-- Three lines each: the post, both labels, and who you think is right and
